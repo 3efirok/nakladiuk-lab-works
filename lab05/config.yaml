@@ -1,0 +1,33 @@
+# Configuration of the experiment importer (lab 5).
+version: 1
+
+input:
+  path: data/experiments.csv
+
+output:
+  path: output/experiments.json
+  errors_path: output/rejected.csv   # rejected records with the reason
+  create_dirs: true
+  indent: 2
+
+validation:
+  # allowed parameters and their measurement units
+  allowed_parameters:
+    temperature: K
+    pressure: kPa
+    voltage: V
+    frequency: Hz
+    concentration: mol/L
+  min_result: 0.0
+  max_result: 10000.0
+
+processing:
+  skip_invalid: true        # true = tolerant mode, false = strict mode
+  researcher: null          # e.g. "Olena Kovalenko"
+  result_range: null        # e.g. [100, 400]
+
+logging:
+  level: INFO
+  file: logs/importer.log
+  max_bytes: 1000000
+  backup_count: 3
