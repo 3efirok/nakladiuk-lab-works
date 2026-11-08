@@ -46,7 +46,7 @@ class JsonLinesReader:
                             data = json.loads(line)
                         except json.JSONDecodeError as error:
                             raise DataImportError(f"{path}:{number}: invalid JSON") from error
-                        yield number, {key: str(value) for key, value in data.items()}
+                        yield number, {key: "" if value is None else str(value) for key, value in data.items()}
         except OSError as error:
             raise DataImportError(f"{path}: cannot read file ({error.strerror})") from error
 
