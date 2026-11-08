@@ -61,7 +61,9 @@ class ImportService:
         self.reader = reader or reader_for(config.input_path)
         self.stats = ImportStatistics()
         self.rejected: list[dict[str, str]] = []
+        # all valid records (domain validation) and the exported subset (summaries)
         self.experiments = ExperimentService(ExperimentRepository(), ResearcherRepository())
+        self.exported = ExperimentService(ExperimentRepository(), ResearcherRepository())
 
     # ------------------------------------------------------------- streaming
     def _reject(self, error: RecordValidationError) -> None:
@@ -103,10 +105,6 @@ class ImportService:
         with log_stage(self.logger, "import"):
             results: list[ExperimentPayload] = []
             for line, payload in self.iter_valid():
-                if not self._passes_filters(payload):
-                    self.stats.valid += 1
-                    self.stats.filtered_out += 1
-                    continue
                 try:
                     self.experiments.import_payload(payload)  # domain conversion + checks
                 except ExperimentValidationError as error:
@@ -116,7 +114,11 @@ class ImportService:
                     self._reject(wrapped)
                     continue
                 self.stats.valid += 1
-                results.append(payload)
+                if self._passes_filters(payload):
+                    self.exported.import_payload(payload)
+                    results.append(payload)
+                else:
+                    self.stats.filtered_out += 1
 
         with log_stage(self.logger, "export"):
             document = self.build_document(results)
@@ -130,12 +132,7 @@ class ImportService:
 
     def build_document(self, results: list[ExperimentPayload]) -> dict[str, Any]:
         reporting = ReportingService(default_strategies(), JsonReportExporter(), MemorySink())
-        exported_ids = {item["experiment_id"] for item in results}
-        summaries = [
-            reporting.build_report(experiment)
-            for experiment in self.experiments.find_all()
-            if experiment.id in exported_ids
-        ]
+        summaries = [reporting.build_report(experiment) for experiment in self.exported.find_all()]
         return {
             "schema_version": 1,
             "generated_at": datetime.now().replace(microsecond=0),
