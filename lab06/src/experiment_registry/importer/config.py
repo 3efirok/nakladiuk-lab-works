@@ -58,12 +58,20 @@ def _section(data: Mapping[str, Any], key: str) -> Mapping[str, Any]:
     return value
 
 
+def _to_bool(value: object, source: str) -> bool:
+    """Strict boolean parsing: bool("false") would be True, so strings are mapped explicitly."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        if value.strip().lower() in {"1", "true", "yes", "on"}:
+            return True
+        if value.strip().lower() in {"0", "false", "no", "off"}:
+            return False
+    raise ConfigurationError(f"Invalid boolean value for {source}: {value!r}.")
+
+
 def _env_bool(value: str) -> bool:
-    if value.lower() in {"1", "true", "yes", "on"}:
-        return True
-    if value.lower() in {"0", "false", "no", "off"}:
-        return False
-    raise ConfigurationError(f"Invalid boolean value in environment: {value!r}.")
+    return _to_bool(value, "environment variable")
 
 
 def apply_env_overrides(data: dict[str, Any], env: Mapping[str, str]) -> dict[str, Any]:
@@ -112,11 +120,11 @@ def parse_config(data: Mapping[str, Any], base_dir: Path = Path(".")) -> AppConf
         input_path=input_path,
         output_path=output_path,
         errors_path=base_dir / str(errors_raw) if errors_raw else None,
-        create_dirs=bool(output_section.get("create_dirs", False)),
+        create_dirs=_to_bool(output_section.get("create_dirs", False), "output.create_dirs"),
         indent=int(output_section.get("indent", 2)),
         validation=ValidationConfig(allowed, min_result, max_result),
         processing=ProcessingConfig(
-            skip_invalid=bool(processing_section.get("skip_invalid", True)),
+            skip_invalid=_to_bool(processing_section.get("skip_invalid", True), "processing.skip_invalid"),
             researcher=processing_section.get("researcher"),
             result_range=result_range,
         ),
