@@ -15,7 +15,7 @@ defaults:
 jobs:
   quality:
     name: Lint, types, tests (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -45,7 +45,7 @@ jobs:
   package:
     name: Build wheel and sdist
     needs: quality
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -63,7 +63,7 @@ jobs:
           /tmp/clean/bin/pip install dist/*.whl
           /tmp/clean/bin/experiment-registry --help
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: experiment-registry-dist
           path: lab10/dist/
@@ -71,7 +71,7 @@ jobs:
   docker:
     name: Docker build and smoke test
     needs: quality
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - name: Docker build
