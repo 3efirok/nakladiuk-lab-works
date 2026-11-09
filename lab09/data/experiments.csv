@@ -1,0 +1,21 @@
+experiment_id,name,researcher,parameter,result,date
+1,Thermal conductivity of Al alloy,Olena Kovalenko,temperature,293.4,2026-02-03
+1,Thermal conductivity of Al alloy,Olena Kovalenko,temperature,297.1,2026-02-04
+1,Thermal conductivity of Al alloy,Olena Kovalenko,temperature,301.8,2026-02-10
+2,Gas compression test,Taras Hnatiuk,pressure,101.3,2026-02-05
+2,Gas compression test,Taras Hnatiuk,pressure,99.8,2026-02-06
+3,Battery discharge cycle,Iryna Melnyk,voltage,3.71,2026-02-12
+3,Battery discharge cycle,Iryna Melnyk,voltage,3.65,2026-02-13
+4,Cryogenic cooling run,Andrii Bondar,temperature,77.2,2026-02-18
+5,Signal generator sweep,Maria Shevchuk,frequency,1500,2026-02-20
+6,Invalid result sample,Taras Hnatiuk,pressure,wrong,2026-02-21
+7,Heat exchanger efficiency,Olena Kovalenko,temperature,348.9,2026-03-02
+7,Heat exchanger efficiency,Olena Kovalenko,temperature,352.2,2026-03-03
+8,Missing researcher,,voltage,0.71,2026-03-04
+9,Unknown parameter,Andrii Bondar,colour,5.0,2026-03-05
+10,Future date sample,Maria Shevchuk,pressure,26.5,2031-01-01
+x1,Bad identifier,Maria Shevchuk,pressure,26.5,2026-03-06
+11,Electrolyte titration,Iryna Melnyk,concentration,0.25,2026-03-09
+12,Negative result,Andrii Bondar,temperature,-5,2026-03-10
+3,Battery discharge cycle,Iryna Melnyk,pressure,101.0,2026-03-11
+13,Weather balloon ascent,Maria Shevchuk,pressure,26.5,2026-03-20
