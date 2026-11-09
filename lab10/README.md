@@ -1,5 +1,7 @@
 # Experiment Registry
 
+[![CI lab10](https://github.com/3efirok/nakladiuk-lab-works/actions/workflows/lab10-ci.yml/badge.svg)](https://github.com/3efirok/nakladiuk-lab-works/actions/workflows/lab10-ci.yml)
+
 Production-версія навчального проєкту з дисципліни «Професійний Пайтон» (лабораторна робота №10).
 Варіант 15 — облік результатів наукових експериментів: назва експерименту, дослідник, параметр,
 результат і дата.
