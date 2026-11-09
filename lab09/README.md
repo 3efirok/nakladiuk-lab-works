@@ -30,8 +30,8 @@ python benchmarks/benchmark_performance.py cache io sync
 pytest -v
 ```
 
-Основний результат (1 000 000 значень): NumPy ≈ 40× швидше за Python-цикли, `ProcessPoolExecutor`
-≈ 1.4–1.8× (обмежено передаванням даних між процесами), `ThreadPoolExecutor` не прискорює
+Основний результат (1 000 000 значень): NumPy у десятки разів швидший за Python-цикли (≈20–70×
+залежно від запуску), `ProcessPoolExecutor` ≈ 1.3–1.8× (обмежено передаванням даних між процесами), `ThreadPoolExecutor` не прискорює
 CPU-bound задачу через GIL, але дає ≈ 5× для завантаження файлів з мережевою затримкою.
 
 ## Автор
