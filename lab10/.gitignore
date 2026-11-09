@@ -1,0 +1,26 @@
+# virtual environments and caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# build artifacts
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+
+# secrets and local data
+.env
+*.db
+output/
+logs/
+data/generated/
+benchmarks/results/
